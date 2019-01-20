@@ -47,12 +47,13 @@ def preprocessTweets(filepath):
 
     # write processed tweets to a csv
     out_file_path = os.path.join( write_data_path, 'data_fr.csv') #outfile path
-    out_file = open( out_file_path, "a")  # out_file obj
+    out_file = open( out_file_path, "w")  # out_file obj
     csv_writer  = csv.writer(out_file, delimiter=',', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)
-    csv_writer.writerow(["id", "text", "date"])  #write header
+    csv_writer.writerow(["id", "text"])  #write header
 
     # process each tweet (memory efficient for large files)
     text_list = []
+    id_list = []
     with open(filepath, 'r') as fileobj:
 		
         for line in fileobj:
@@ -62,18 +63,21 @@ def preprocessTweets(filepath):
                 for obj in line:
                     tweet=obj['text']
                     message_id=obj['id']
-                    if tweet in text_list:
-                        continue
-                    else:
-                        text_list.append(tweet)
                     #created_at = time.strftime('%Y-%m-%d %H', time.strptime(line["created_at"], '%a %b %d %H:%M:%S +0000 %Y'))
                     # remove url, emoji's, smirley's, mentions (you can choose to retain mentions)
                     # refer Global variable p.set_options
                     tweet = p.clean(tweet)         # remove urls, reserved, emoji, smiley, mention
                     tweet = tweet.lower()          # lower
-                    tweet = re.sub(r'[^\w\s\d]','',tweet)
-                    print(tweet, message_id, type(tweet), type(message_id))
-                    csv_writer.writerow([message_id, tweet])
+                    tweet = re.sub(r'[^\w\s]','',tweet) #remove poncutuation
+                    tweet = re.sub("^\d+\s|\s\d+\s|\s\d+$","", tweet) #remove degit
+                    tweet = tweet.strip() #remove whitespace from start and end
+                    if not tweet in text_list and not message_id in id_list:
+                        text_list.append(tweet)
+                        id_list.append(tweet)
+                        print(tweet, message_id, type(tweet), type(message_id))
+                        csv_writer.writerow([message_id, tweet])
+                    else:
+                        print("duplicated") 
             except:
                 print('error')
 

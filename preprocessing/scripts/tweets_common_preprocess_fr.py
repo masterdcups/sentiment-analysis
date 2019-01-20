@@ -52,7 +52,7 @@ def preprocessTweets(filepath):
     csv_writer.writerow(["id", "text", "date"])  #write header
 
     # process each tweet (memory efficient for large files)
-    id_list = []
+    text_list = []
     with open(filepath, 'r') as fileobj:
 		
         for line in fileobj:
@@ -62,14 +62,16 @@ def preprocessTweets(filepath):
                 for obj in line:
                     tweet=obj['text']
                     message_id=obj['id']
+                    if tweet in text_list:
+                        continue
+                    else:
+                        text_list.append(tweet)
                     #created_at = time.strftime('%Y-%m-%d %H', time.strptime(line["created_at"], '%a %b %d %H:%M:%S +0000 %Y'))
                     # remove url, emoji's, smirley's, mentions (you can choose to retain mentions)
                     # refer Global variable p.set_options
                     tweet = p.clean(tweet)         # remove urls, reserved, emoji, smiley, mention
                     tweet = tweet.lower()          # lower
                     tweet = re.sub(r'[^\w\s\d]','',tweet)
-                    #tweet = regexb.sub('',tweet)  # remove quotes
-                    #tweet = regex.sub('', tweet)   # remove punctuations
                     print(tweet, message_id, type(tweet), type(message_id))
                     csv_writer.writerow([message_id, tweet])
             except:

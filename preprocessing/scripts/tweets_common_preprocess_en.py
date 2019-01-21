@@ -53,31 +53,43 @@ def preprocessTweets(filepath):
 
     # process each tweet (memory efficient for large files)
     id_list = []
-    with open(filepath, 'r') as fileobj:
+    with open(filepath, 'r', encoding='utf-8') as fileobj:
 		
         for line in fileobj:
+            line = line.replace("\'", "\"")
+            print(line)
+            #data = json.dumps(line)
+            tweet= json.loads(line)
+            
+            '''
             try:
-                print("hello")
                 # raw data is doubly encoded json, pass it twice through json.loads
-                line =  json.loads(json.dumps(line))
-                #for obj in line:
-                tweet=line['text']
-                print(tweet)
-                message_id=line['id']
-                print(tweet)
-                    #created_at = time.strftime('%Y-%m-%d %H', time.strptime(line["created_at"], '%a %b %d %H:%M:%S +0000 %Y'))
+                data = json.dumps(line)
+                tweet = json.loads(data)
+                print(tweet['text'])
+                
+                for obj in line:
+                    tweet=obj['text']
+                    message_id=obj['id']
+                    created_at = time.strftime('%Y-%m-%d %H', time.strptime(line["created_at"], '%a %b %d %H:%M:%S +0000 %Y'))
                     # remove url, emoji's, smirley's, mentions (you can choose to retain mentions)
                     # refer Global variable p.set_options
-                tweet = p.clean(tweet)         # remove urls, reserved, emoji, smiley, mention
-                tweet = tweet.lower()          # lower
-                tweet = re.sub(r'[^\w\s\d]','',tweet)
-                    #tweet = regexb.sub('',tweet)  # remove quotes
-                    #tweet = regex.sub('', tweet)   # remove punctuations
-                print(tweet, message_id, type(tweet), type(message_id))
-                csv_writer.writerow([message_id, tweet])
+                    tweet = p.clean(tweet)         # remove urls, reserved, emoji, smiley, mention
+                    tweet = tweet.lower()          # lower
+                    tweet = re.sub(r'[^\w\s]','',tweet) #remove poncutuation
+                    tweet = re.sub("^\d+\s|\s\d+\s|\s\d+$","", tweet) #remove degit
+                    tweet = tweet.strip() #remove whitespace from start and end
+                    if not tweet in text_list and not message_id in id_list:
+                        text_list.append(tweet)
+                        id_list.append(tweet)
+                        print(tweet, message_id, type(tweet), type(message_id))
+                        csv_writer.writerow([message_id, tweet])
+                    else:
+                        print("duplicated")
+                 
             except:
                 print('error')
-
+            '''
     # close outfile
     out_file.close()
 

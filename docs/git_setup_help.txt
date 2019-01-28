@@ -1,0 +1,24 @@
+
+install library
+sudo apt get-install git
+
+config account :
+
+git config --global user.email "mail" 
+git config --global user.name "name" 
+
+first time clone :
+git clone https://github.com/sefianiomar/sentiment-analysis.git
+
+add file in localhost git :
+git add .
+
+commit updates in local git :
+git commit -m "first commit"
+
+to connect to the origin git :
+git remote add origin https://github.com/sefianiomar/sentiment-analysis.git
+to upload files :
+git push -u origin master 
+to download files updated :
+git pull origin master 

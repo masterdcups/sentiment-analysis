@@ -91,6 +91,8 @@ def Load_SemEval2007Data():
     for column in df:         # retenir le score maximal
         df[column][1]= max(df[column][1])
         print(df[column])
+        
+    return df
 
 
 
@@ -104,7 +106,7 @@ def loadDEFT2015():
     df = pd.DataFrame(data[0])
 
     df.head()
-
+    return df
 
 
 
@@ -124,13 +126,4 @@ def loadEmotionTweet():
 
     parser.export_json('data/data_json/data.json')
     data = parser.get_pandas_data_frame()
-
-    contains_tag_transformer = tweet_contains_tag_transformer.TweetContainsTagTransformer()
-
-    sample_pipeline = pipeline.Pipeline(contains_tag_transformer)
-
-    transformed_data = sample_pipeline.transform(data)
-
-    parser.set_pandas_data_frame(transformed_data)
-    parser.export_json('data/data_json/data_contains_tag.json')
-
+    return data

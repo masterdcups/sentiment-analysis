@@ -49,7 +49,7 @@ def preprocessTweets(filepath):
     out_file_path = os.path.join( write_data_path, 'data.csv') #outfile path
     out_file = open( out_file_path, "a")  # out_file obj
     csv_writer  = csv.writer(out_file, delimiter=',', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)
-    csv_writer.writerow(["id", "text", "date"])  #write header
+    csv_writer.writerow(["id", "text"])  #write header
 
     # process each tweet (memory efficient for large files)
     id_list = []
@@ -59,8 +59,10 @@ def preprocessTweets(filepath):
             try:
                 print("hello")
                 # raw data is doubly encoded json, pass it twice through json.loads
-                line =  json.loads(json.dumps(line))
+                #line =  json.loads(json.dumps(line))
+                #line = data.append(json.loads(line))
                 #for obj in line:
+                line =  json.load(line)
                 tweet=line['text']
                 print(tweet)
                 message_id=line['id']

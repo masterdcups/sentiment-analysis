@@ -1,0 +1,14 @@
+
+
+sudo apt get-install git
+
+git config --global user.email "wilfried.agbo1@gmail.com" 
+
+git config --global user.name "thelight93" 
+git init
+git add .
+git commit -m "first commit"
+#to connect to the origin git
+git remote add origin https://github.com/sefianiomar/sentiment-analysis.git
+git push -u origin master #to upload files
+git pull origin master #to download files uploaded

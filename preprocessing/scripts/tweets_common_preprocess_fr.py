@@ -47,9 +47,9 @@ def preprocessTweets(filepath):
 
     # write processed tweets to a csv
     out_file_path = os.path.join( write_data_path, 'data_fr.csv') #outfile path
-    out_file = open( out_file_path, "a")  # out_file obj
+    out_file = open( out_file_path, "w")  # out_file obj
     csv_writer  = csv.writer(out_file, delimiter=',', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)
-    csv_writer.writerow(["id", "text", "date"])  #write header
+    csv_writer.writerow(["id", "text"])  #write header
 
     # process each tweet (memory efficient for large files)
     text_list = []

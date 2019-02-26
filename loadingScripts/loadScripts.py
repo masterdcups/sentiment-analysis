@@ -98,15 +98,18 @@ def Load_SemEval2007Data():
 
 # Loading arff dataset
 
-from scipy.io import arff
+import arff
 import pandas as pd
 
-def loadDEFT2015():
-    data = arff.loadarff('Corpus.de.tweets.en.français/DEFT2015-arff/Train2.2.arff')
-    df = pd.DataFrame(data[0])
+def loadArff:
+df = pd.DataFrame(columns=['text', 'emotion'])
+data = list(arff.load('Corpus.de.tweets.en.français/DEFT2015-arff/Train2.2.arff'))
 
-    df.head()
-    return df
+for i in range(len(data)):
+    item = data[i]
+    df.loc[i] = [item[0], item[1]]
+
+return df
 
 
 

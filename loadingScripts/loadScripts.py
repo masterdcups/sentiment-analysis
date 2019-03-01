@@ -101,9 +101,8 @@ def Load_SemEval2007Data():
 
 # Loading arff dataset
 
-from scipy.io import arff
+import arff
 import pandas as pd
-
 
 def loadDEFT2015():
     df = pd.DataFrame(columns=['text', 'emotion'])
@@ -114,6 +113,13 @@ def loadDEFT2015():
         df.loc[i] = [item[0], item[1]]
 
     return df
+
+df = loadDEFT2015()
+
+df.to_pickle("Train2.2.bin")
+
+df = pd.read_pickle("Train2.2.bin")
+print(df)
 
 
 # loading txt dataset
